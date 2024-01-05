@@ -41,11 +41,6 @@ constexpr auto kTimeoutMillis{150};
  */
 constexpr auto kTimeoutMicros{kTimeoutMillis * 1000};
 
-/**
- * @brief The HUB Wheel effort [Newton] (@todo(JimmyHalimi): Fix scaling div10)
- */
-constexpr auto kMinVelocityToEffort{0.29355};
-
 namespace wheel {
 /**
  * @brief The HUB Wheel power [Watt]

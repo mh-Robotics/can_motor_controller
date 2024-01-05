@@ -112,7 +112,6 @@ void CanWrapper::FeedbackHandler(
   }
 }
 
-// @todo(jimmyhalimi): Since no mutex, we need to use volatile for this
 can_frame_t CanWrapper::CanMessage() const { return can_msg_; }
 
 WheelController::WheelStatus CanWrapper::WheelCommandStatus() const {

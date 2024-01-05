@@ -79,27 +79,27 @@ bool WheelController::CalculateWheelOdometry() {
 
   int sign = is_reverse_ ? -1 : 1;
 
-  double position = (internal::wheel::kCircumferenceMeters *
-                     static_cast<double>(current_signal_counter)) /
-                    internal::wheel::kPulsePerRevolution;
+  double position = static_cast<double>(internal::wheel::kCircumferenceMeters *
+                                        current_signal_counter /
+                                        internal::wheel::kPulsePerRevolution);
   wheel_feedback_status_.Position(position);
 
-  double rpm =
+  uint16_t rpm = static_cast<uint16_t>(
       (internal::wheel::kPulsePerRevolution * delta_signal_counter_) /
-      (internal::wheel::kCircumferenceMillimeters * time_taken_ / 6000.0);
+      (internal::wheel::kCircumferenceMillimeters * time_taken_ / 6000.0));
   wheel_feedback_status_.Rpm(rpm);
 
-  double velocity = sign *
-                    (internal::wheel::kCircumferenceMillimeters /
-                     internal::wheel::kPulsePerRevolution) *
-                    delta_signal_counter_ / time_taken_;
+  double velocity =
+      static_cast<double>(sign * internal::wheel::kCircumferenceMillimeters /
+                          internal::wheel::kPulsePerRevolution *
+                          delta_signal_counter_ / time_taken_);
   wheel_feedback_status_.Velocity(velocity);
 
-  if (velocity <= -internal::kMinVelocityToEffort ||
-      velocity >= internal::kMinVelocityToEffort) {
-    wheel_feedback_status_.Effort(internal::wheel::kPowerInWatt /
-                                  std::abs(velocity));
-  }
+  uint16_t effort = velocity == 0
+                        ? 0
+                        : static_cast<uint16_t>(internal::wheel::kPowerInWatt /
+                                                std::abs(velocity));
+  wheel_feedback_status_.Effort(effort);
 
   old_time_ = current_time;
   old_signal_counter_ = current_signal_counter;

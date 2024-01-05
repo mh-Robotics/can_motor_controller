@@ -139,6 +139,7 @@ private:
 
   /**
    * @brief The latest CAN message received
+   * @todo(JimmyHalimi): This should be converted to volatile
    */
   can_frame_t can_msg_{{0}, {0}, 0};
 
